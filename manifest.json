@@ -1,0 +1,12 @@
+{
+  "name": "وين الطلعة؟",
+  "short_name": "وين الطلعة",
+  "description": "اكتشف أماكن وتجارب جدة",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f5",
+  "theme_color": "#163b35",
+  "lang": "ar",
+  "icons": []
+}
