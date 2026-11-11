@@ -1,9 +1,10 @@
 
 const places = [
   {
-    emoji: "🌊",
-    ar: "واجهة روشن البحرية",
-    en: "ROSHN Waterfront",
+   emoji: "🌊",
+image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=800",
+ar: "واجهة روشن البحرية",
+en: "ROSHN Waterfront",
     descAr: "ممشى بحري، جلسات، ألعاب أطفال وإطلالات على البحر الأحمر.",
     descEn: "Seaside promenade, seating, children's play areas and Red Sea views.",
     cat: "nature",
@@ -172,7 +173,7 @@ function showPlaces() {
   document.getElementById("places").innerHTML =
     filtered.map(place => `
       <article class="card">
-        <div class="emoji">${place.emoji}</div>
+       <img class="place-image" src="${place.image}" alt="${place.en}">
         <h3>${language === "ar" ? place.ar : place.en}</h3>
         <p>${language === "ar" ? place.descAr : place.descEn}</p>
         <div class="price">
