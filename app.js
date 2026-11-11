@@ -71,8 +71,8 @@ en: "ROSHN Waterfront",
     source: "https://alshallal.com.sa/"
   },
   {
-    emoji: "🌳",image: 
-      image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1000",
+emoji: "🌳",
+image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1000",
     ar: "حديقة الأمير ماجد",
     en: "Prince Majid Park",
     descAr: "حديقة واسعة للتنزه العائلي والمشي. تحققي من رسوم الأنشطة قبل الزيارة.",
