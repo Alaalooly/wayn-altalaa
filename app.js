@@ -172,6 +172,7 @@ function showRating(place) {
   ) / reviews.length;
 
   return `⭐ ${average.toFixed(1)} (${reviews.length} تقييم)`;
+}
 function render() {
   const t = translations[language];
   const budget = document.getElementById("budget").value;
