@@ -44,7 +44,7 @@ en: "ROSHN Waterfront",
   },
   {
     emoji: "🐠",
-   image: "https://commons.wikimedia.org/wiki/Special:FilePath/Fakieh_Aquarium_Jeddah.jpg",
+   image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1000",
     ar: "فقيه أكواريوم",
     en: "Fakieh Aquarium",
     descAr: "تجربة ممتعة لمشاهدة الكائنات البحرية والأنفاق المائية.",
@@ -57,7 +57,8 @@ en: "ROSHN Waterfront",
     source: "https://www.visitsaudi.com/en/destinations/jeddah/attractions/explore-fakieh-aquarium"
   },
   {
-    emoji: "🎢",image: "https://commons.wikimedia.org/wiki/Special:FilePath/Al_Shallal_Theme_Park_Jeddah.jpg",
+    emoji: "🎢", 
+    image: "https://images.unsplash.com/photo-1513883049090-d0b7439799bf?w=1000",
     ar: "ملاهي الشلال",
     en: "Al Shallal Theme Park",
     descAr: "ألعاب ترفيهية وتزلج على الجليد وأنشطة عائلية. بعض الألعاب برسوم إضافية.",
@@ -70,7 +71,8 @@ en: "ROSHN Waterfront",
     source: "https://alshallal.com.sa/"
   },
   {
-    emoji: "🌳",image: "https://commons.wikimedia.org/wiki/Special:FilePath/Prince_Majid_Park_Jeddah.jpg",
+    emoji: "🌳",image: 
+      image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1000",
     ar: "حديقة الأمير ماجد",
     en: "Prince Majid Park",
     descAr: "حديقة واسعة للتنزه العائلي والمشي. تحققي من رسوم الأنشطة قبل الزيارة.",
