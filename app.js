@@ -1,10 +1,10 @@
 
 const places = [
   {
-   emoji: "🌊",
-image: "https://storage.googleapis.com/marcom-roshn-sa-cms-prod/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c.png",
-ar: "واجهة روشن البحرية",
-en: "ROSHN Waterfront",
+    emoji: "🌊",
+    image: "https://storage.googleapis.com/marcom-roshn-sa-cms-prod/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c.png",
+    ar: "واجهة روشن البحرية",
+    en: "ROSHN Waterfront",
     descAr: "ممشى بحري، جلسات، ألعاب أطفال وإطلالات على البحر الأحمر.",
     descEn: "Seaside promenade, seating, children's play areas and Red Sea views.",
     cat: "nature",
@@ -30,7 +30,7 @@ en: "ROSHN Waterfront",
   },
   {
     emoji: "🏛️",
-   image: "https://commons.wikimedia.org/wiki/Special:FilePath/AlBalad_CoralHouses.JPG?width=1000",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/AlBalad_CoralHouses.JPG?width=1000",
     ar: "جدة التاريخية - البلد",
     en: "Historic Jeddah - Al-Balad",
     descAr: "استكشفي الأزقة والأسواق والبيوت التاريخية. بعض المتاحف والجولات برسوم.",
@@ -44,7 +44,7 @@ en: "ROSHN Waterfront",
   },
   {
     emoji: "🐠",
-   image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1000",
+    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1000",
     ar: "فقيه أكواريوم",
     en: "Fakieh Aquarium",
     descAr: "تجربة ممتعة لمشاهدة الكائنات البحرية والأنفاق المائية.",
@@ -57,7 +57,7 @@ en: "ROSHN Waterfront",
     source: "https://www.visitsaudi.com/en/destinations/jeddah/attractions/explore-fakieh-aquarium"
   },
   {
-    emoji: "🎢", 
+    emoji: "🎢",
     image: "https://images.unsplash.com/photo-1513883049090-d0b7439799bf?w=1000",
     ar: "ملاهي الشلال",
     en: "Al Shallal Theme Park",
@@ -71,8 +71,8 @@ en: "ROSHN Waterfront",
     source: "https://alshallal.com.sa/"
   },
   {
-emoji: "🌳",
-image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1000",
+    emoji: "🌳",
+    image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1000",
     ar: "حديقة الأمير ماجد",
     en: "Prince Majid Park",
     descAr: "حديقة واسعة للتنزه العائلي والمشي. تحققي من رسوم الأنشطة قبل الزيارة.",
@@ -102,11 +102,16 @@ const translations = {
     adventure: "مغامرات",
     calm: "هدوء",
     budgets: ["كل الميزانيات", "مجاني", "حتى 50 ريال", "حتى 100 ريال"],
-    free: "مجاني",
-    sar: "ريال",
     map: "الموقع على الخريطة",
     source: "المصدر والتفاصيل",
-    empty: "لا توجد أماكن تطابق اختياراتك."
+    empty: "لا توجد أماكن تطابق اختياراتك.",
+    rate: "⭐ قيّمي المكان",
+    noReviews: "⭐ لا توجد تقييمات بعد",
+    ratingPrompt: "قيّمي المكان من 1 إلى 5 نجوم",
+    commentPrompt: "اكتبي رأيك في المكان:",
+    thanks: "شكرًا لك! تم حفظ تقييمك ❤️",
+    invalid: "اختاري تقييمًا صحيحًا من 1 إلى 5",
+    noComment: "اكتبي رأيك أولًا"
   },
   en: {
     headline: "Where shall we go today?",
@@ -120,59 +125,76 @@ const translations = {
     adventure: "Adventure",
     calm: "Relax",
     budgets: ["All budgets", "Free", "Up to SAR 50", "Up to SAR 100"],
-    free: "Free",
-    sar: "SAR",
     map: "View on map",
     source: "Source & details",
-    empty: "No places match your filters."
+    empty: "No places match your filters.",
+    rate: "⭐ Rate this place",
+    noReviews: "⭐ No reviews yet",
+    ratingPrompt: "Rate this place from 1 to 5 stars",
+    commentPrompt: "Write your review:",
+    thanks: "Thank you! Your review has been saved ❤️",
+    invalid: "Please choose a rating from 1 to 5",
+    noComment: "Please write your review first"
   }
 };
 
 function getReviews(place) {
-  const reviews = JSON.parse(
-    localStorage.getItem("reviews_" + place.en) || "[]"
-  );
-
-  return reviews;
+  try {
+    return JSON.parse(
+      localStorage.getItem("reviews_" + place.en) || "[]"
+    );
+  } catch {
+    return [];
+  }
 }
+
 function addReview(placeName) {
-  const rating = Number(prompt("قيّمي المكان من 1 إلى 5 نجوم"));
+  const t = translations[language];
+
+  const rating = Number(prompt(t.ratingPrompt));
 
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
-    alert("اختاري تقييمًا من 1 إلى 5");
+    alert(t.invalid);
     return;
   }
 
-  const comment = prompt("اكتبي رأيك في المكان:");
+  const comment = prompt(t.commentPrompt);
 
   if (!comment || !comment.trim()) {
-    alert("اكتبي رأيك أولًا");
+    alert(t.noComment);
     return;
   }
 
   const key = "reviews_" + placeName;
   const reviews = JSON.parse(localStorage.getItem(key) || "[]");
 
-  reviews.push({ rating, comment: comment.trim() });
+  reviews.push({
+    rating: rating,
+    comment: comment.trim()
+  });
 
   localStorage.setItem(key, JSON.stringify(reviews));
 
   showPlaces();
-  alert("شكرًا لك! تم حفظ تقييمك ❤️");
+  alert(t.thanks);
 }
+
 function showRating(place) {
+  const t = translations[language];
   const reviews = getReviews(place);
 
   if (reviews.length === 0) {
-    return "⭐ لا توجد تقييمات بعد";
+    return t.noReviews;
   }
 
   const average = reviews.reduce(
-    (sum, review) => sum + review.rating, 0
+    (sum, review) => sum + review.rating,
+    0
   ) / reviews.length;
 
-  return `⭐ ${average.toFixed(1)} (${reviews.length} تقييم)`;
+  return `⭐ ${average.toFixed(1)} (${reviews.length})`;
 }
+
 function render() {
   const t = translations[language];
   const budget = document.getElementById("budget").value;
@@ -185,6 +207,7 @@ function render() {
   document.getElementById("surprise").textContent = t.surprise;
   document.getElementById("categoriesTitle").textContent = t.categories;
   document.getElementById("placesTitle").textContent = t.places;
+
   document.getElementById("language").textContent =
     language === "ar" ? "English" : "العربية";
 
@@ -200,6 +223,7 @@ function render() {
     ).join("");
 
   document.getElementById("budget").value = budget;
+
   showPlaces();
 }
 
@@ -223,33 +247,37 @@ function showPlaces() {
   document.getElementById("places").innerHTML =
     filtered.map(place => `
       <article class="card">
-       <img class="place-image" src="${place.image}" alt="${place.en}">
+        <img class="place-image" src="${place.image}" alt="${place.en}">
+
         <h3>${language === "ar" ? place.ar : place.en}</h3>
+
         <p>${language === "ar" ? place.descAr : place.descEn}</p>
-<div class="price">
-  ${language === "ar" ? place.priceAr : place.priceEn}
-</div>
 
-<div class="rating">
-  ${showRating(place)}
-</div>
+        <div class="price">
+          ${language === "ar" ? place.priceAr : place.priceEn}
+        </div>
 
-<button onclick="addReview('${place.en}')">
-  ${language === "ar" ? "⭐ قيّمي المكان" : "⭐ Rate this place"}
-</button>
+        <div class="rating">
+          ${showRating(place)}
+        </div>
+
+        <button onclick="addReview('${place.en}')">
+          ${t.rate}
+        </button>
+
         <p>
           <a href="${place.map}" target="_blank" rel="noopener">
             📍 ${t.map}
           </a>
         </p>
+
         <p>
           <a href="${place.source}" target="_blank" rel="noopener">
             🔎 ${t.source}
           </a>
         </p>
       </article>
-    `).join("") ||
-    `<p>${t.empty}</p>`;
+    `).join("") || `<p>${t.empty}</p>`;
 }
 
 document.getElementById("language").addEventListener("click", () => {
@@ -269,6 +297,7 @@ document.getElementById("budget").addEventListener("change", render);
 document.getElementById("surprise").addEventListener("click", () => {
   const random = places[Math.floor(Math.random() * places.length)];
   const name = language === "ar" ? random.ar : random.en;
+
   const message = language === "ar"
     ? `طلعتك اليوم: ${name}`
     : `Your outing today: ${name}`;
