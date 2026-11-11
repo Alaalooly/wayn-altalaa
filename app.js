@@ -143,7 +143,7 @@ function getReviews(place) {
     return JSON.parse(
       localStorage.getItem("reviews_" + place.en) || "[]"
     );
-  } catch {
+  } catch (error) {
     return [];
   }
 }
@@ -166,7 +166,13 @@ function addReview(placeName) {
   }
 
   const key = "reviews_" + placeName;
-  const reviews = JSON.parse(localStorage.getItem(key) || "[]");
+  let reviews = [];
+
+  try {
+    reviews = JSON.parse(localStorage.getItem(key) || "[]");
+  } catch (error) {
+    reviews = [];
+  }
 
   reviews.push({
     rating: rating,
@@ -197,7 +203,8 @@ function showRating(place) {
 
 function render() {
   const t = translations[language];
-  const budget = document.getElementById("budget").value;
+  const budgetElement = document.getElementById("budget");
+  const budget = budgetElement.value;
 
   document.documentElement.lang = language;
   document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
@@ -217,12 +224,11 @@ function render() {
     button.classList.toggle("active", category === key);
   });
 
-  document.getElementById("budget").innerHTML =
-    t.budgets.map((label, index) =>
-      `<option value="${["all", "free", "50", "100"][index]}">${label}</option>`
-    ).join("");
+  budgetElement.innerHTML = t.budgets.map((label, index) =>
+    `<option value="${["all", "free", "50", "100"][index]}">${label}</option>`
+  ).join("");
 
-  document.getElementById("budget").value = budget;
+  budgetElement.value = budget;
 
   showPlaces();
 }
@@ -247,7 +253,12 @@ function showPlaces() {
   document.getElementById("places").innerHTML =
     filtered.map(place => `
       <article class="card">
-        <img class="place-image" src="${place.image}" alt="${place.en}">
+        <img
+          class="place-image"
+          src="${place.image}"
+          alt="${place.en}"
+          loading="lazy"
+        >
 
         <h3>${language === "ar" ? place.ar : place.en}</h3>
 
@@ -286,8 +297,10 @@ document.getElementById("language").addEventListener("click", () => {
 });
 
 document.getElementById("categories").addEventListener("click", event => {
-  if (event.target.dataset.cat) {
-    category = event.target.dataset.cat;
+  const button = event.target.closest("button[data-cat]");
+
+  if (button) {
+    category = button.dataset.cat;
     render();
   }
 });
