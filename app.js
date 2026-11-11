@@ -172,7 +172,7 @@ function showRating(place) {
   ) / reviews.length;
 
   return `⭐ ${average.toFixed(1)} (${reviews.length} تقييم)`;
-}
+function render() {
   const t = translations[language];
   const budget = document.getElementById("budget").value;
 
@@ -235,7 +235,7 @@ function showPlaces() {
 
 <button onclick="addReview('${place.en}')">
   ${language === "ar" ? "⭐ قيّمي المكان" : "⭐ Rate this place"}
-</button>>
+</button>
         <p>
           <a href="${place.map}" target="_blank" rel="noopener">
             📍 ${t.map}
