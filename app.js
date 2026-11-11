@@ -215,4 +215,84 @@ function render() {
   document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
 
   document.getElementById("headline").textContent = t.headline;
-  document.getElementById("subtitle
+
+  .textContent = t.subtitle;
+  document.getElementById("surprise").textContent = t.surprise;
+  document.getElementById("categoriesTitle").textContent = t.categories;
+  document.getElementById("placesTitle").textContent = t.places;
+  document.getElementById("language").textContent =
+    language === "ar" ? "English" : "العربية";
+
+  document.querySelectorAll("#categories button").forEach(button => {
+    const key = button.dataset.cat;
+    if (t[key]) button.textContent = t[key];
+    button.classList.toggle("active", category === key);
+  });
+
+  budgetElement.innerHTML = t.budgets.map((label, index) =>
+    `<option value="${["all", "free", "50", "100"][index]}">${label}</option>`
+  ).join("");
+
+  budgetElement.value = selectedBudget;
+  showPlaces();
+}
+
+function showPlaces() {
+  const t = translations[language];
+  const budget = document.getElementById("budget").value;
+
+  const filtered = places.filter(place => {
+    const categoryMatch =
+      category === "all" || place.cat === category;
+
+    const budgetMatch =
+      budget === "all" ||
+      (budget === "free" && place.price === 0) ||
+      (budget === "50" && place.price !== null && place.price <= 50) ||
+      (budget === "100" && place.price !== null && place.price <= 100);
+
+    return categoryMatch && budgetMatch;
+  });
+
+  document.getElementById("places").innerHTML = filtered.map(place => `
+    <article class="card">
+      <img class="place-image" src="${place.image}" alt="${place.en}" loading="lazy">
+      <h3>${language === "ar" ? place.ar : place.en}</h3>
+      <p>${language === "ar" ? place.descAr : place.descEn}</p>
+      <div class="price">${language === "ar" ? place.priceAr : place.priceEn}</div>
+      <div class="rating">${showRating(place)}</div>
+      <button onclick="addReview('${place.en}')">${t.rate}</button>
+      <p><a href="${place.map}" target="_blank" rel="noopener">📍 ${t.map}</a></p>
+      <p><a href="${place.source}" target="_blank" rel="noopener">🔎 ${t.source}</a></p>
+    </article>
+  `).join("") || `<p>${t.empty}</p>`;
+}
+
+document.getElementById("language").addEventListener("click", () => {
+  language = language === "ar" ? "en" : "ar";
+  render();
+});
+
+document.getElementById("categories").addEventListener("click", event => {
+  const button = event.target.closest("button[data-cat]");
+  if (!button) return;
+  category = button.dataset.cat;
+  render();
+});
+
+document.getElementById("budget").addEventListener("change", showPlaces);
+
+document.getElementById("surprise").addEventListener("click", () => {
+  const random = places[Math.floor(Math.random() * places.length)];
+  const name = language === "ar" ? random.ar : random.en;
+  const message = language === "ar"
+    ? `طلعتك اليوم: ${name}`
+    : `Your outing today: ${name}`;
+
+  if (confirm(message)) {
+    window.open(random.map, "_blank", "noopener");
+  }
+});
+
+render();
+
