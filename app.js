@@ -264,7 +264,7 @@ document.getElementById("categories").addEventListener("click", event => {
   }
 });
 
-document.getElementById("budget").addEventListener("change", showPlaces);
+document.getElementById("budget").addEventListener("change", render);
 
 document.getElementById("surprise").addEventListener("click", () => {
   const random = places[Math.floor(Math.random() * places.length)];
