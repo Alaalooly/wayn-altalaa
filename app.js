@@ -2,7 +2,7 @@
 const places = [
   {
    emoji: "🌊",
-image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=800",
+image: "https://storage.googleapis.com/marcom-roshn-sa-cms-prod/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c/ROSHN_000_Qaisaran_Studio74830_2024_f1dd175e6c.png",
 ar: "واجهة روشن البحرية",
 en: "ROSHN Waterfront",
     descAr: "ممشى بحري، جلسات، ألعاب أطفال وإطلالات على البحر الأحمر.",
