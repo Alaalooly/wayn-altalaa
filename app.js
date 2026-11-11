@@ -128,7 +128,51 @@ const translations = {
   }
 };
 
-function render() {
+function getReviews(place) {
+  const reviews = JSON.parse(
+    localStorage.getItem("reviews_" + place.en) || "[]"
+  );
+
+  return reviews;
+}
+function addReview(placeName) {
+  const rating = Number(prompt("قيّمي المكان من 1 إلى 5 نجوم"));
+
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    alert("اختاري تقييمًا من 1 إلى 5");
+    return;
+  }
+
+  const comment = prompt("اكتبي رأيك في المكان:");
+
+  if (!comment || !comment.trim()) {
+    alert("اكتبي رأيك أولًا");
+    return;
+  }
+
+  const key = "reviews_" + placeName;
+  const reviews = JSON.parse(localStorage.getItem(key) || "[]");
+
+  reviews.push({ rating, comment: comment.trim() });
+
+  localStorage.setItem(key, JSON.stringify(reviews));
+
+  showPlaces();
+  alert("شكرًا لك! تم حفظ تقييمك ❤️");
+}
+function showRating(place) {
+  const reviews = getReviews(place);
+
+  if (reviews.length === 0) {
+    return "⭐ لا توجد تقييمات بعد";
+  }
+
+  const average = reviews.reduce(
+    (sum, review) => sum + review.rating, 0
+  ) / reviews.length;
+
+  return `⭐ ${average.toFixed(1)} (${reviews.length} تقييم)`;
+}
   const t = translations[language];
   const budget = document.getElementById("budget").value;
 
@@ -181,9 +225,17 @@ function showPlaces() {
        <img class="place-image" src="${place.image}" alt="${place.en}">
         <h3>${language === "ar" ? place.ar : place.en}</h3>
         <p>${language === "ar" ? place.descAr : place.descEn}</p>
-        <div class="price">
-          ${language === "ar" ? place.priceAr : place.priceEn}
-        </div>
+<div class="price">
+  ${language === "ar" ? place.priceAr : place.priceEn}
+</div>
+
+<div class="rating">
+  ${showRating(place)}
+</div>
+
+<button onclick="addReview('${place.en}')">
+  ${language === "ar" ? "⭐ قيّمي المكان" : "⭐ Rate this place"}
+</button>>
         <p>
           <a href="${place.map}" target="_blank" rel="noopener">
             📍 ${t.map}
