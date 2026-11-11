@@ -216,7 +216,7 @@ function render() {
 
   document.getElementById("headline").textContent = t.headline;
 
-  .textContent = t.subtitle;
+document.getElementById("subtitle").textContent = t.subtitle;
   document.getElementById("surprise").textContent = t.surprise;
   document.getElementById("categoriesTitle").textContent = t.categories;
   document.getElementById("placesTitle").textContent = t.places;
